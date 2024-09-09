@@ -13,6 +13,10 @@ typedef struct
 	SDL_Point corner;
 	bool inMainRect;
 	int pixelColor;
+
+	// remember the position of pixel's color
+	// in colored array (colors.h)
+	int posInColoredArray;
 }pixelData_t;
 
 

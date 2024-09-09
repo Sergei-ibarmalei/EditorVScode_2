@@ -2,6 +2,7 @@
 #define BLACK 0u, 0u, 0u, 0xffu
 #define NOFILEDATA nullptr
 
+// for save data
 ed::FileData::FileData(Pixel** workTable)
 {
 	if (!workTable)
@@ -26,6 +27,8 @@ ed::FileData::FileData(Pixel** workTable)
 				workTable[r][c].IsMainRectFilled();
 			tmpWorkTableLine[atNomber].pixelColor =
 				workTable[r][c].PixelColorIs();
+			tmpWorkTableLine[atNomber].posInColoredArray =
+				workTable[r][c].RecallPositionInColoredArray();
 		}
 	}
 }

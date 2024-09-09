@@ -27,6 +27,8 @@ namespace ed
 		// - has red border
 		mainrectFilled = data.inMainRect;
 
+		positionInColoredArray = data.posInColoredArray;
+
 	}
 
 
