@@ -39,6 +39,15 @@ namespace ed
 			readyToSaveFile = true; break;
 		}
 
+		case SDLK_r:
+		{
+			if (!makeOneMainRect())
+			{
+				std::cout << "Count of all main rects pixels is less than 1 \n";
+			}
+			break;
+		}
+
 		default: {}
 		}
 	}
@@ -150,6 +159,31 @@ namespace ed
 		choosenColor = colors[0];
 		countOfFilledPixels = 0;
 		wFoundPixel = cFoundPixel = { 0, 0 };
+		countOfMainRectPixels = 0;
+	}
+
+
+	bool Area::makeOneMainRect()
+	{
+		if (countOfMainRectPixels == 0) return false;
+		SDL_Point* upLeftCornersArray = new SDL_Point[countOfMainRectPixels] {0, 0};
+		int arrCount {0};
+		for (int r = 0; r < workTableRowsCount; r++)
+		{
+			for (int c = 0; c < workTableColsCount; c++)
+			{
+				SDL_Rect choosenRect = *wTable->GetWorkTable()[r][c].PixelRect();
+				if (wTable->GetWorkTable()[r][c].IsMainRectFilled())
+				{
+					upLeftCornersArray[arrCount].x = choosenRect.x;
+					upLeftCornersArray[arrCount].y = choosenRect.y;
+					arrCount += 1;
+				}
+			}
+		}
+
+
+
 	}
 
 

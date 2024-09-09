@@ -31,6 +31,7 @@ ed::FileData::FileData(Pixel** workTable)
 				workTable[r][c].RecallPositionInColoredArray();
 		}
 	}
+
 }
 
 

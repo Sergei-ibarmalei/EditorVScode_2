@@ -28,6 +28,7 @@ namespace ed
 		// is S key pressed?
 		bool readyToSaveFile {false};
 		void reset();
+		bool makeOneMainRect();
 
 	public:
 		Area(SDL_Renderer* const r, SDL_Event* e, pixelData_t* dataFromFile = nullptr);
