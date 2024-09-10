@@ -2,6 +2,8 @@
 constexpr int currentWorkTableRows{ 16 };
 constexpr int currentWorkTableCols{ 16 };
 
+
+
 namespace ed
 {
 	Area::Area(SDL_Renderer* const r,  SDL_Event* e, pixelData_t* dataFromFile)
@@ -27,11 +29,13 @@ namespace ed
 		case SDLK_RIGHT:
 		{
 			wTable->Rotate(countOfFilledPixels + countOfMainRectPixels);
+			//if (showingOneMainRect) makeOneMainRect();
 			break;
 		}
 		case SDLK_LEFT:
 		{
 			wTable->Rotate(countOfFilledPixels + countOfMainRectPixels, false);
+			//if (showingOneMainRect) makeOneMainRect();
 			break;
 		}
 		case SDLK_s:
@@ -41,10 +45,23 @@ namespace ed
 
 		case SDLK_r:
 		{
-			if (!makeOneMainRect())
+			// if one main rect is shown then reset flag and exit
+			if (showingOneMainRect)
+			{
+				showingOneMainRect = false;
+				break;
+			}
+
+			// else make one main rect
+
+			if (countOfMainRectPixels == 0)
 			{
 				std::cout << "Count of all main rects pixels is less than 1 \n";
+				break;
 			}
+			else makeOneMainRect();
+
+			
 			break;
 		}
 
@@ -54,10 +71,16 @@ namespace ed
 
 	void Area::Draw()
 	{
-		wTable->DrawTable(render);
+		wTable->DrawTable(render, showingOneMainRect);
 		cTable->DrawTable(render);
+		if (showingOneMainRect)
+		{
+			SDL_SetRenderDrawColor(render, 0xffu, 0, 0, 0xffu);
+			SDL_RenderDrawRect(render, &onemainrect);
+		}
 
 	}
+
 
 	void Area::TestDrawbounds()
 	{
@@ -160,12 +183,13 @@ namespace ed
 		countOfFilledPixels = 0;
 		wFoundPixel = cFoundPixel = { 0, 0 };
 		countOfMainRectPixels = 0;
+		showingOneMainRect =false;
+		onemainrect.x = onemainrect.y = onemainrect.w = onemainrect.h = 0;
 	}
 
 
-	bool Area::makeOneMainRect()
+	void  Area::makeOneMainRect()
 	{
-		if (countOfMainRectPixels == 0) return false;
 		SDL_Point* upLeftCornersArray = new SDL_Point[countOfMainRectPixels] {0, 0};
 		int arrCount {0};
 		for (int r = 0; r < workTableRowsCount; r++)
@@ -181,9 +205,15 @@ namespace ed
 				}
 			}
 		}
-
-
-
+		onemainrect.x = upLeftCornersArray[0].x;
+		onemainrect.y = upLeftCornersArray[0].y;
+		onemainrect.w = (upLeftCornersArray[arrCount-1].x + workPixelSide) -
+			upLeftCornersArray[0].x;
+		onemainrect.h = (upLeftCornersArray[arrCount-1].y + workPixelSide) -
+			upLeftCornersArray[0].y;
+		
+		showingOneMainRect = true;
+		delete[] upLeftCornersArray; upLeftCornersArray = nullptr;
 	}
 
 
@@ -195,3 +225,5 @@ namespace ed
 		delete cTable; cTable = nullptr;
 	}
 }
+
+

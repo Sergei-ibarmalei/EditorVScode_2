@@ -51,7 +51,8 @@ namespace ed
 		int  PixelColorIs() const { return pixelColor; }
 		virtual void SetPixelData(const pixelData_t& pdata);
 		virtual Rect* PixelRect() { return pixelRect; }
-		virtual void Draw(SDL_Renderer* const r);
+		//virtual void Draw(SDL_Renderer* const r);
+		void Draw(SDL_Renderer* const r, bool shoingOneMainRect = false);
 
 #ifdef LOGTOSCREEN
 		friend std::ostream& operator<<(std::ostream& os, const Pixel& p);
@@ -74,7 +75,8 @@ namespace ed
 		~CheckedPixel();
 
 		void SetPixelData(const pixelData_t& pdata) override;
-		void Draw(SDL_Renderer* const r) override;
+		//void Draw(SDL_Renderer* const r) override;
+		void Draw(SDL_Renderer* const r);
 		Rect* PixelRect() override { return nullptr; }
 
 		void CheckUncheck() { checked = !checked; }

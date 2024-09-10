@@ -45,12 +45,15 @@ namespace ed
 		positionInColoredArray = positionInColoredTable;
 	}
 
-	void Pixel::Draw(SDL_Renderer* const r)
+	void Pixel::Draw(SDL_Renderer* const r, bool showingOneMainRect)
 	{
 
 		if (!filled)
 		{
-			if (mainrectFilled) SDL_SetRenderDrawColor(r, RED);
+			// we colored mainrect pixels by red only if showingOneMainRect is false
+			// if we have one big main rect in the screen, we do not 
+			// show red border of main rect pixels
+			if (mainrectFilled && !showingOneMainRect) SDL_SetRenderDrawColor(r, RED);
 			else SDL_SetRenderDrawColor(r, GREY);
 			SDL_RenderDrawRect(r, pixelRect);
 		}
@@ -59,8 +62,11 @@ namespace ed
 			SDL_SetRenderDrawColor(r, static_cast<Uint8>((pixelColor & redflag) >> 16),
 				static_cast<Uint8>((pixelColor & greenflag) >> 8), static_cast<Uint8>((pixelColor & blueflag)), 0xffu);
 			SDL_RenderFillRect(r, pixelRect);
-			if (mainrectFilled)
+			if (mainrectFilled && !showingOneMainRect)
 			{
+				// we colored mainrect pixels by red only if showingOneMainRect is false
+				// if we have one big main rect in the screen, we do not 
+				// show red border of main rect pixels
 				SDL_SetRenderDrawColor(r, RED);
 				SDL_RenderDrawRect(r, pixelRect);
 			}

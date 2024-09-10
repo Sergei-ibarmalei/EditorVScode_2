@@ -210,13 +210,13 @@ namespace ed
 		return true;
 	}
 
-	void WorkTable::DrawTable(SDL_Renderer* const render)
+	void WorkTable::DrawTable(SDL_Renderer* const render, bool showingOneMainRect)
 	{
 		for (int r = 0; r < tRows; r++)
 		{
 			for (int c = 0; c < tCols; c++)
 			{
-				workTable[r][c].Draw(render);
+				workTable[r][c].Draw(render, showingOneMainRect);
 			}
 		}
 	}

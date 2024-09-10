@@ -23,7 +23,7 @@ namespace ed
 		virtual bool initiateRowsColsMainBounds() = 0;
 		virtual bool makeTable() = 0;
 	public:
-		virtual void DrawTable(SDL_Renderer* const r) = 0;
+		//virtual void DrawTable(SDL_Renderer* const r) = 0;
 		void DrawBounds(SDL_Renderer* const r);
 		bool GetIntersectPosition(SDL_Point& pos, Rect&  mr);
 		virtual ~AbstractTable();
@@ -46,7 +46,8 @@ namespace ed
 			pixelData_t* dataFromFile = nullptr);
 		WorkTable(const WorkTable&) = delete;
 		WorkTable& operator=(const WorkTable&) = delete;
-		virtual void DrawTable(SDL_Renderer* const r) override;
+		//virtual void DrawTable(SDL_Renderer* const r) override;
+		void DrawTable(SDL_Renderer* const r, bool showingOneMainRect = false);
 		void SwitchOnOffPixel(const SDL_Point& p, int color = 0);
 		void SwitchOnMainRect(const SDL_Point& p);
 		void SwitchOffMainRect(const SDL_Point& p);
@@ -71,7 +72,8 @@ namespace ed
 		ColoredTable& operator=(const ColoredTable&) = delete;
 		void CheckUncheckColored(const SDL_Point& newCheckPos);
 		void Reset();
-		virtual void DrawTable(SDL_Renderer* const r) override;
+		//virtual void DrawTable(SDL_Renderer* const r) override;
+		void DrawTable(SDL_Renderer* const r);
 		~ColoredTable();
 	};
 

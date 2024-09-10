@@ -18,9 +18,12 @@ namespace ed
 		SDL_Renderer* render{ nullptr };
 		SDL_Event* events{ nullptr };
 		Rect mouseRect{ 0, 0, 1,1 };
+		// For show main rect
+		Rect onemainrect{0, 0, 0, 0};
 		SDL_Point wFoundPixel{ 0, 0 };
 		SDL_Point cFoundPixel{ 0, 0 };
 		int choosenColor{ colors[0] };
+		bool showingOneMainRect {false};
 
 		int countOfFilledPixels{ 0 };
 		int countOfMainRectPixels{ 0 };
@@ -28,7 +31,7 @@ namespace ed
 		// is S key pressed?
 		bool readyToSaveFile {false};
 		void reset();
-		bool makeOneMainRect();
+		void  makeOneMainRect();
 
 	public:
 		Area(SDL_Renderer* const r, SDL_Event* e, pixelData_t* dataFromFile = nullptr);
