@@ -11,6 +11,7 @@ set(SOURCES
     src/rect.cpp 
     src/sdltype.cpp
     src/maincross.cpp
+    src/filedata.cpp
     main.cpp)
 add_executable(${PROJECT_NAME} ${SOURCES})
 

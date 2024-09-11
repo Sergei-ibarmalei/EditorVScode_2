@@ -3,21 +3,11 @@
 #include "rect.h"
 #include "flags.h"
 #include "const.h"
+#include "pixeldata.h"
 
 #ifdef LOGTOSCREEN
 #include <iostream>
 #endif
-
-typedef struct
-{
-	SDL_Point corner;
-	bool inMainRect;
-	int pixelColor;
-
-	// remember the position of pixel's color
-	// in colored array (colors.h)
-	int posInColoredArray;
-}pixelData_t;
 
 
 
@@ -28,6 +18,7 @@ namespace ed
 	private:
 		bool filled{ false };
 		bool mainrectFilled{ false };
+		bool isFire{false};
 	protected:
 		Rect* pixelRect{ nullptr };
 		int	  pixelColor = 0;
@@ -43,11 +34,14 @@ namespace ed
 		void SetColor(const int color);
 		void SetFill(bool fill) { filled = fill; }
 		void SetMainRectFill(bool mrFill) { mainrectFilled = mrFill; }
+		void SetFire(bool fire) {isFire = fire;}
 		void RememberPositionInColoredTable(int posInColoredTable);
 		void ForgetPositionInColoredArray() { positionInColoredArray = 0; }
 		int  RecallPositionInColoredArray() const { return positionInColoredArray; }
 		bool IsFilled() const { return filled; }
 		bool IsMainRectFilled() const { return mainrectFilled; }
+		bool IsFire() const {return isFire;}
+
 		int  PixelColorIs() const { return pixelColor; }
 		virtual void SetPixelData(const pixelData_t& pdata);
 		virtual Rect* PixelRect() { return pixelRect; }

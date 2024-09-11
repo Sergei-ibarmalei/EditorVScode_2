@@ -29,6 +29,7 @@ namespace ed
 
 		int countOfFilledPixels{ 0 };
 		int countOfMainRectPixels{ 0 };
+		int countOfFires{0};
 
 		// is S key pressed?
 		bool readyToSaveFile {false};

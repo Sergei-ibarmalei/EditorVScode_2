@@ -51,10 +51,12 @@ namespace ed
 		void SwitchOnOffPixel(const SDL_Point& p, int color = 0);
 		void SwitchOnMainRect(const SDL_Point& p);
 		void SwitchOffMainRect(const SDL_Point& p);
+		void SwitchOnFire(const SDL_Point& p);
+		void SwitchOffFire(const SDL_Point& p);
 		void Reset();
 		void PixelRememberThis(const SDL_Point& wtablePos, int positionInColoredTable);
 		int  PixelRemindThis(const SDL_Point& wtablePos);
-		void Rotate(int coloredCount, bool clock = true);
+		void Rotate(int coloredMainRectsFireCount, bool clock = true);
 		Pixel** GetWorkTable() const { return workTable; }
 		~WorkTable();
 	};

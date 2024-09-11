@@ -29,14 +29,14 @@ namespace ed
 		}
 		case SDLK_RIGHT:
 		{
-			wTable->Rotate(countOfFilledPixels + countOfMainRectPixels);
-			//if (showingOneMainRect) makeOneMainRect();
+			wTable->Rotate(countOfFilledPixels + countOfMainRectPixels + countOfFires);
+			if (showingOneMainRect) makeOneMainRect();
 			break;
 		}
 		case SDLK_LEFT:
 		{
-			wTable->Rotate(countOfFilledPixels + countOfMainRectPixels, false);
-			//if (showingOneMainRect) makeOneMainRect();
+			wTable->Rotate(countOfFilledPixels + countOfMainRectPixels + countOfFires, false);
+			if (showingOneMainRect) makeOneMainRect();
 			break;
 		}
 		case SDLK_s:
@@ -160,6 +160,22 @@ namespace ed
 					//==
 					return;
 				}
+				// switch on / off fire points
+				if (keyState[SDL_SCANCODE_LALT])
+				{
+					wTable->SwitchOnFire(wFoundPixel);
+					countOfFires += 1;
+					return;
+				}
+
+				if (keyState[SDL_SCANCODE_RALT])
+				{
+					wTable->SwitchOffFire(wFoundPixel);
+					countOfFires -= 1;
+					if (countOfFires < 0) countOfFires = 0;
+					return;
+				}
+
 
 				int indexInColoredArray = (cFoundPixel.x * colorColsCount) + cFoundPixel.y;
 				wTable->SwitchOnOffPixel(wFoundPixel, choosenColor);
@@ -192,7 +208,7 @@ namespace ed
 
 	void  Area::makeOneMainRect()
 	{
-		SDL_Point* upLeftCornersArray = new SDL_Point[countOfMainRectPixels] {0, 0};
+		SDL_Point* upLeftCornersArray = new SDL_Point[countOfMainRectPixels];
 		int arrCount {0};
 		for (int r = 0; r < workTableRowsCount; r++)
 		{

@@ -71,6 +71,14 @@ namespace ed
 				SDL_RenderDrawRect(r, pixelRect);
 			}
 		}
+		if (isFire)
+		{
+			SDL_SetRenderDrawColor(r, RED);
+			SDL_RenderDrawLine(r, pixelRect->x, pixelRect->y,
+				(pixelRect->x + workPixelSide), (pixelRect->y + workPixelSide));
+			SDL_RenderDrawLine(r, (pixelRect->x + workPixelSide), pixelRect->y,
+				pixelRect->x, (pixelRect->y + workPixelSide));
+		}
 
 	}
 
@@ -83,6 +91,7 @@ namespace ed
 		mainrectFilled = p.mainrectFilled;
 		pixelColor = p.pixelColor;
 		positionInColoredArray = p.positionInColoredArray;
+		isFire = p.isFire;
 		if (pixelRect)
 		{
 			delete pixelRect; pixelRect = nullptr;

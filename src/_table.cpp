@@ -263,6 +263,18 @@ namespace ed
 		workTable[p.x][p.y].SetMainRectFill(false);
 	}
 
+	void WorkTable::SwitchOnFire(const SDL_Point& p)
+	{
+		if (workTable[p.x][p.y].IsFire()) return;
+		workTable[p.x][p.y].SetFire(true);
+	}
+
+	void WorkTable::SwitchOffFire(const SDL_Point& p)
+	{
+		if (!workTable[p.x][p.y].IsFire()) return;
+		workTable[p.x][p.y].SetFire(false);
+	}
+
 	void WorkTable::Reset()
 	{
 		for (int r = 0; r < tRows; r++)
@@ -273,6 +285,7 @@ namespace ed
 				workTable[r][c].SetColor(-1);
 				workTable[r][c].ForgetPositionInColoredArray();
 				workTable[r][c].SetMainRectFill(false);
+				workTable[r][c].SetFire(false);
 			}
 		}
 	}
@@ -280,13 +293,13 @@ namespace ed
 
 
 	// coloredCount = count of colored pixels in wTable
-	void WorkTable::Rotate(int coloredAndMainRectCount, bool clock)
+	void WorkTable::Rotate(int coloredMainRectsFireCount, bool clock)
 	{
-		if (!coloredAndMainRectCount) return;
-		tmpTable = new pixelData_t[coloredAndMainRectCount];
+		if (!coloredMainRectsFireCount) return;
+		tmpTable = new pixelData_t[coloredMainRectsFireCount];
 		// in this array we store positions in color array of pixel
 		// when we rotate table we must remember it
-		int* tmpReminderColoredPos = new int[coloredAndMainRectCount] {0};
+		int* tmpReminderColoredPos = new int[coloredMainRectsFireCount] {0};
 
 		int tmpTableIter = 0;
 #define ROW corner.y
@@ -299,7 +312,7 @@ namespace ed
 				// if pixel in wTable is filled by some color:
 				// and need to rotate clockwise
 
-				if ((workTable[r][c].IsFilled() || workTable[r][c].IsMainRectFilled()) && clock)
+				if ((workTable[r][c].IsFilled() || workTable[r][c].IsMainRectFilled() || workTable[r][c].IsFire()) && clock)
 				{
 					// remember the position of that pixel
 					tmpTable[tmpTableIter].ROW = tRows - r - 1;
@@ -308,12 +321,13 @@ namespace ed
 					// do remember if pixel is in red main rect
 					tmpTable[tmpTableIter].inMainRect = workTable[r][c].IsMainRectFilled();					
 					tmpReminderColoredPos[tmpTableIter] = workTable[r][c].RecallPositionInColoredArray();
+					tmpTable[tmpTableIter].isFire = workTable[r][c].IsFire();
 					tmpTableIter += 1;
 					
 				}
 				// and need to rotate counterclockwise
 
-				else if ((workTable[r][c].IsFilled() || workTable[r][c].IsMainRectFilled()) && !clock)
+				else if ((workTable[r][c].IsFilled() || workTable[r][c].IsMainRectFilled() || workTable[r][c].IsFire()) && !clock)
 				{
 					// remember the position of that pixel
 					tmpTable[tmpTableIter].COL = tCols - c - 1;
@@ -321,6 +335,7 @@ namespace ed
 					tmpTable[tmpTableIter].pixelColor = workTable[r][c].PixelColorIs();
 					tmpTable[tmpTableIter].inMainRect = workTable[r][c].IsMainRectFilled();
 					tmpReminderColoredPos[tmpTableIter] = workTable[r][c].RecallPositionInColoredArray();
+					tmpTable[tmpTableIter].isFire = workTable[r][c].IsFire();
 					tmpTableIter += 1;
 				}
 
@@ -338,12 +353,12 @@ namespace ed
 			}
 			workTable[tmpTable[i].COL][tmpTable[i].ROW].RememberPositionInColoredTable(tmpReminderColoredPos[i]);			
 			// recall is pixel in red main rect
-			workTable[tmpTable[i].COL][tmpTable[i].ROW].SetMainRectFill(tmpTable[i].inMainRect);		
+			workTable[tmpTable[i].COL][tmpTable[i].ROW].SetMainRectFill(tmpTable[i].inMainRect);	
+			workTable[tmpTable[i].COL][tmpTable[i].ROW].SetFire(tmpTable[i].isFire);	
 		}
 
 		delete[] tmpTable; tmpTable = nullptr;
 		delete[] tmpReminderColoredPos; tmpReminderColoredPos = nullptr;
-
 #undef ROW
 #undef COL
 	}
