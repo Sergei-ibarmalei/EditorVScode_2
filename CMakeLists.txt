@@ -10,6 +10,7 @@ set(SOURCES
     src/pixel.cpp 
     src/rect.cpp 
     src/sdltype.cpp
+    src/maincross.cpp
     main.cpp)
 add_executable(${PROJECT_NAME} ${SOURCES})
 

@@ -28,3 +28,6 @@ constexpr int colorTableStartX{ workTableStartX +
 	workColorSpaceBetween };
 constexpr int colorTableStartY{ workTableStartY };
 
+constexpr int workTableSide {(workTableRowsCount * workPixelSide) + 
+	(workTableRowsCount - 1) * workPixelSpace};
+

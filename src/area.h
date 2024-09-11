@@ -4,6 +4,7 @@
 #include "_table.h"
 #include "colors.h"
 #include "const.h"
+#include "maincross.h"
 
 
 
@@ -17,6 +18,7 @@ namespace ed
 		ColoredTable* cTable{ nullptr };
 		SDL_Renderer* render{ nullptr };
 		SDL_Event* events{ nullptr };
+		MainCross* mainCross {nullptr};
 		Rect mouseRect{ 0, 0, 1,1 };
 		// For show main rect
 		Rect onemainrect{0, 0, 0, 0};

@@ -16,6 +16,7 @@ namespace ed
 		events = e;
 		wTable = new WorkTable(currentWorkTableRows, currentWorkTableCols, dataFromFile);
 		cTable = new ColoredTable;
+		mainCross = new MainCross;
 	}
 
 	void Area::CheckKeys(SDL_Event& e)
@@ -78,6 +79,7 @@ namespace ed
 			SDL_SetRenderDrawColor(render, 0xffu, 0, 0, 0xffu);
 			SDL_RenderDrawRect(render, &onemainrect);
 		}
+		mainCross->ShowMainCross(render);
 
 	}
 
@@ -223,6 +225,7 @@ namespace ed
 		events = nullptr;
 		delete wTable; wTable = nullptr;
 		delete cTable; cTable = nullptr;
+		delete mainCross; mainCross = nullptr;
 	}
 }
 
